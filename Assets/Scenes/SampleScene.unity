@@ -348,7 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6ef46f6a1b1e48a1847cecd269f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
+  BMCscript: {fileID: 0}
+  moveSpeed: 10
   enterVector: {x: 0, y: 0, z: 0}
   currentVector: {x: 0, y: 0, z: 0}
 --- !u!65 &352007938
@@ -1863,7 +1864,7 @@ GameObject:
   - component: {fileID: 1404433832666064}
   m_Layer: 0
   m_Name: VRKayakTestPrefab
-  m_TagString: Untagged
+  m_TagString: Kayak
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
