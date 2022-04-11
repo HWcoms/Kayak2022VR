@@ -10,6 +10,8 @@ public class BoatMoveController : MonoBehaviour
 
     [SerializeField] private bool isWater;
 
+    [SerializeField] private Transform[] floaters;
+
     public float underWaterDrag = 3f;
     public float underWaterAngularDrag = 1f;
 
@@ -19,6 +21,8 @@ public class BoatMoveController : MonoBehaviour
     public float floatingPower = 15f;
 
     public float waterHeight = 0f;
+
+    int floatersUnderWater;
 
     // Start is called before the first frame update
     void Start()
@@ -39,20 +43,36 @@ public class BoatMoveController : MonoBehaviour
     public void MoveBoat(float power)
     {
         //transform.position += Vector3.forward * power * 0.01f;
-        boatRigid.AddForce(Vector3.forward * power);
+        //boatRigid.AddForce(Vector3.forward * power);
+        boatRigid.AddForceAtPosition(Vector3.forward * power, transform.position, ForceMode.Force);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Water")
+        floatersUnderWater = 0;
+        foreach(Transform floater in floaters)
         {
-            float difference = transform.position.y - waterHeight;
-            print(difference);
-            isWater = true;
-            SwitchState(true);
+            if (other.tag == "Water")
+            {
+                float difference = floater.position.y - waterHeight;
+                //print(difference);
+                isWater = true;
+                
 
-            boatRigid.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(difference), transform.position, ForceMode.Force);
+                if(difference < 0)
+                {
+                    boatRigid.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(difference), floater.position, ForceMode.Force);
+                    SwitchState(true);
+                    floatersUnderWater++;
+                }
+            }
         }
+
+        if (isWater && floatersUnderWater == 0)
+        {
+            SwitchState(false);
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -60,7 +80,6 @@ public class BoatMoveController : MonoBehaviour
         if (isWater)
         {
             isWater = false;
-            SwitchState(false);
         }
     }
 
