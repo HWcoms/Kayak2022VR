@@ -35,6 +35,7 @@ public class PaddleMoveController : MonoBehaviour
             {
                 print("move boat");
                 BMCscript.MoveBoat(moveSpeed);
+                enterVector = currentVector;
             }
 
         }
