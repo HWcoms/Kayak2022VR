@@ -5,8 +5,11 @@ using UnityEngine;
 public class BoatMoveController : MonoBehaviour
 {
     public Transform VRPlayer;
-    private Transform playerSeatPos;
+    public Transform playerFloorPos;
+    public Transform playerSeatPos;
     private Rigidbody boatRigid;
+
+    [SerializeField] bool isSeat = false;
 
     [SerializeField] private bool isWater;
 
@@ -27,7 +30,6 @@ public class BoatMoveController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerSeatPos = transform.Find("PlayerPos");
         boatRigid = this.GetComponent<Rigidbody>();
         waterHeight = GameObject.FindWithTag("Water").transform.Find("WaterHeightPos").position.y;
     }
@@ -35,9 +37,19 @@ public class BoatMoveController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      //  VRPlayer.transform.position = playerSeatPos.position;
+        if(isSeat)
+        {
+            VRPlayer.transform.position = playerSeatPos.position;
+        }
+        else
+        {
+            VRPlayer.transform.position = playerFloorPos.position;
+        }
+    }
 
-        
+    public void ChangeSeat()
+    {
+        isSeat = !isSeat;
     }
 
     public void MoveBoat(float power)

@@ -794,7 +794,7 @@ Transform:
   m_LocalScale: {x: 3.5825, y: 3.5825, z: 3.5825}
   m_Children: []
   m_Father: {fileID: 912881071}
-  m_RootOrder: 8
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &459570073
 BoxCollider:
@@ -1308,14 +1308,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 705507995}
-  - {fileID: 196532808}
+  - {fileID: 459570072}
   - {fileID: 591579526}
   - {fileID: 1826298940}
   - {fileID: 389726266}
+  - {fileID: 196532808}
   - {fileID: 1621177396}
   - {fileID: 1200924816}
   - {fileID: 1602372844}
-  - {fileID: 459570072}
+  - {fileID: 2114632749}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1378,7 +1379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8090891674275893548, guid: 1bb7642ebf8d0a34aa23fc586ea87e6a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8090891674275893548, guid: 1bb7642ebf8d0a34aa23fc586ea87e6a, type: 3}
       propertyPath: m_LocalScale.x
@@ -1520,7 +1521,7 @@ GameObject:
   - component: {fileID: 1200924816}
   - component: {fileID: 1200924814}
   m_Layer: 0
-  m_Name: hinge_joint
+  m_Name: hinge_root
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1554,7 +1555,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 912881071}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1462594080 stripped
 MonoBehaviour:
@@ -1745,7 +1746,7 @@ Transform:
   - {fileID: 4862178986910909}
   - {fileID: 1070163621}
   m_Father: {fileID: 912881071}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1602372845
 MonoBehaviour:
@@ -1759,7 +1760,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f8fea296839a443a2e5d8bfa3d14a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VRPlayer: {fileID: 0}
+  VRPlayer: {fileID: 1773320474}
+  playerFloorPos: {fileID: 1649318684}
+  playerSeatPos: {fileID: 2114632749}
+  isSeat: 0
   isWater: 0
   floaters:
   - {fileID: 1047035730}
@@ -1820,7 +1824,7 @@ Transform:
   m_Children:
   - {fileID: 444356713}
   m_Father: {fileID: 912881071}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
 --- !u!59 &1621177397
 HingeJoint:
@@ -1916,7 +1920,7 @@ GameObject:
   m_Layer: 0
   m_Name: PlayerPos
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2004,10 +2008,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1540271613746846, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
+    - target: {fileID: 1458957959020712, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1540271613746846, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1540271613746846, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
       propertyPath: m_Name
       value: CameraRigs.TrackedAlias
@@ -2022,15 +2030,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4419020640412130, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.45
+      value: -0.677
       objectReference: {fileID: 0}
     - target: {fileID: 4419020640412130, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.905
+      value: 2.29125
       objectReference: {fileID: 0}
     - target: {fileID: 4419020640412130, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.273
+      value: -4.485
       objectReference: {fileID: 0}
     - target: {fileID: 4419020640412130, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2126,6 +2134,11 @@ GameObject:
 --- !u!1 &1773320463 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1390416002302802, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
+  m_PrefabInstance: {fileID: 1773320455}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1773320474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4144020432045324, guid: 114b3c3ce4645364a97c8f0803bed65b, type: 3}
   m_PrefabInstance: {fileID: 1773320455}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1818893750
@@ -2446,6 +2459,36 @@ Transform:
   m_Father: {fileID: 1070163621}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2114632748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2114632749}
+  m_Layer: 0
+  m_Name: PlayerPos (On the floor)
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2114632749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114632748}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.485, y: 2.28125, z: -4.226}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 912881071}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2125033381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2542,7 +2585,6 @@ GameObject:
   - component: {fileID: 33112546208387569}
   - component: {fileID: 23059060917064075}
   - component: {fileID: 64131519865372659}
-  - component: {fileID: 1404433832666064}
   m_Layer: 0
   m_Name: VRKayakTestPrefab
   m_TagString: Untagged
@@ -2550,27 +2592,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1404433832666064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404433832666063}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9f8fea296839a443a2e5d8bfa3d14a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  VRPlayer: {fileID: 0}
-  isWater: 0
-  floaters: []
-  underWaterDrag: 3
-  underWaterAngularDrag: 900
-  airDrag: 0
-  angularDrag: 0.05
-  floatingPower: 50
-  waterHeight: 0
 --- !u!4 &4398585266383389
 Transform:
   m_ObjectHideFlags: 0
