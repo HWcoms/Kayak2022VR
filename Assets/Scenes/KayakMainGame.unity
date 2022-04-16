@@ -1761,9 +1761,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VRPlayer: {fileID: 1773320474}
-  playerFloorPos: {fileID: 1649318684}
-  playerSeatPos: {fileID: 2114632749}
-  isSeat: 0
+  playerFloorPos: {fileID: 2114632749}
+  playerSeatPos: {fileID: 1649318684}
+  isSeat: 1
   isWater: 0
   floaters:
   - {fileID: 1047035730}
@@ -1932,7 +1932,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649318683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.633, z: -0.92}
+  m_LocalPosition: {x: -0, y: 1.44, z: -0.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 203217229}
