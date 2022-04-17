@@ -394,9 +394,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BMCscript: {fileID: 0}
-  moveSpeed: 500
-  enterVector: {x: 0, y: 0, z: 0}
-  currentVector: {x: 0, y: 0, z: 0}
+  moveSpeed: 100
+  diffVector: {x: 0, y: 0, z: 0}
 --- !u!65 &352007938
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1007,6 +1006,10 @@ PrefabInstance:
     - target: {fileID: 3607323991379943426, guid: 702caa48c730e92469a1c5144fd8ed46, type: 3}
       propertyPath: grabOffset
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3607323991379943426, guid: 702caa48c730e92469a1c5144fd8ed46, type: 3}
+      propertyPath: followTracking
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5701689818747509894, guid: 702caa48c730e92469a1c5144fd8ed46, type: 3}
       propertyPath: m_Name

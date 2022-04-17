@@ -56,7 +56,14 @@ public class BoatMoveController : MonoBehaviour
     {
         //transform.position += Vector3.forward * power * 0.01f;
         //boatRigid.AddForce(Vector3.forward * power);
-        boatRigid.AddForceAtPosition(Vector3.forward * power, transform.position, ForceMode.Force);
+        MoveBoat(Vector3.forward, power);
+    }
+
+    public void MoveBoat(Vector3 dir, float power)
+    {
+        dir.Normalize();
+
+        boatRigid.AddForceAtPosition(dir * power, transform.position, ForceMode.Force);
     }
 
     private void OnTriggerStay(Collider other)

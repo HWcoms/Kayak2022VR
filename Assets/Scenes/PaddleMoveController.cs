@@ -7,8 +7,9 @@ public class PaddleMoveController : MonoBehaviour
     public BoatMoveController BMCscript;
     public float moveSpeed;
 
-    public Vector3 enterVector;
-    public Vector3 currentVector;
+    private Vector3 enterVector;
+    private Vector3 currentVector;
+    public Vector3 diffVector;
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +32,13 @@ public class PaddleMoveController : MonoBehaviour
     {
         if (cols.transform.tag == "Water")
         {
-            if (Vector3.Distance(enterVector, currentVector) > 1.0f)
+            if (Vector3.Distance(enterVector, currentVector) > 0.01f)
             {
                 print("move boat");
-                BMCscript.MoveBoat(moveSpeed);
+                diffVector = currentVector - enterVector;
+                diffVector.y = 0;
+
+                BMCscript.MoveBoat(-diffVector, moveSpeed);
                 enterVector = currentVector;
             }
 
