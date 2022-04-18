@@ -13,7 +13,8 @@ public class BoatMoveController : MonoBehaviour
 
     [SerializeField] private bool isWater;
 
-    [SerializeField] private Transform[] floaters;
+    [SerializeField] private List<Transform> floaters = new List<Transform>();
+    public Transform floaterParent;
 
     public float underWaterDrag = 3f;
     public float underWaterAngularDrag = 1f;
@@ -27,11 +28,20 @@ public class BoatMoveController : MonoBehaviour
 
     int floatersUnderWater;
 
+    public float movePower = 100f;
+    public float steerPower = 10.0f;
+    public float steerPercent = 0.3f;
+
     // Start is called before the first frame update
     void Start()
     {
         boatRigid = this.GetComponent<Rigidbody>();
         waterHeight = GameObject.FindWithTag("Water").transform.Find("WaterHeightPos").position.y;
+
+        foreach(Transform child in floaterParent.transform)
+        {
+            floaters.Add(child);
+        }
     }
 
     // Update is called once per frame
@@ -40,6 +50,7 @@ public class BoatMoveController : MonoBehaviour
         if(isSeat)
         {
             VRPlayer.transform.position = playerSeatPos.position;
+            //VRPlayer.transform.rotation = playerSeatPos.rotation;
         }
         else
         {
@@ -52,18 +63,28 @@ public class BoatMoveController : MonoBehaviour
         isSeat = !isSeat;
     }
 
-    public void MoveBoat(float power)
+    public void MoveBoat()
     {
         //transform.position += Vector3.forward * power * 0.01f;
         //boatRigid.AddForce(Vector3.forward * power);
-        MoveBoat(Vector3.forward, power);
+        MoveBoat(Vector3.forward);
     }
 
-    public void MoveBoat(Vector3 dir, float power)
+    public void MoveBoat(Vector3 dir)
     {
         dir.Normalize();
 
-        boatRigid.AddForceAtPosition(dir * power, transform.position, ForceMode.Force);
+        boatRigid.AddForceAtPosition(dir * movePower, transform.position, ForceMode.Force);
+    }
+
+    public void RotateBoat (Quaternion diffQuaternion)
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, transform.rotation*diffQuaternion, steerPercent);
+    }
+
+    public void RotateBoat (float angle)
+    {
+        boatRigid.AddTorque(Vector3.up * angle * steerPower * 250, ForceMode.Force);
     }
 
     private void OnTriggerStay(Collider other)
