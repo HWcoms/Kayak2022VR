@@ -28,9 +28,20 @@ public class BoatMoveController : MonoBehaviour
 
     int floatersUnderWater;
 
+    //boat values
     public float movePower = 100f;
     public float steerPower = 10.0f;
     public float steerPercent = 0.3f;
+
+    public Transform HeadPosition;  //for torque rotation
+
+    public float testangle;
+
+    public Vector3 velocity;
+    public float yAngle;
+
+    public float velocityRubberBend = 2.0f;
+    public float yAngleRubberBend = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +61,13 @@ public class BoatMoveController : MonoBehaviour
         if(isSeat)
         {
             VRPlayer.transform.position = playerSeatPos.position;
-            //VRPlayer.transform.rotation = playerSeatPos.rotation;
+
+            MoveBoat(velocity);
+            RotateBoat(yAngle);
+            ZeroVelocity();
+            ZeroRotate();
+
+            RotatePlayer();
         }
         else
         {
@@ -65,16 +82,19 @@ public class BoatMoveController : MonoBehaviour
 
     public void MoveBoat()
     {
-        //transform.position += Vector3.forward * power * 0.01f;
-        //boatRigid.AddForce(Vector3.forward * power);
         MoveBoat(Vector3.forward);
     }
 
     public void MoveBoat(Vector3 dir)
     {
+        boatRigid.AddForce(dir * movePower, ForceMode.Acceleration);
+    }
+
+    public void MoveBoat(Vector3 dir, float scalar)
+    {
         dir.Normalize();
 
-        boatRigid.AddForceAtPosition(dir * movePower, transform.position, ForceMode.Force);
+        boatRigid.AddForce(-dir * Mathf.Pow(scalar, 2) * movePower * 10, ForceMode.Acceleration);
     }
 
     public void RotateBoat (Quaternion diffQuaternion)
@@ -84,7 +104,7 @@ public class BoatMoveController : MonoBehaviour
 
     public void RotateBoat (float angle)
     {
-        boatRigid.AddTorque(Vector3.up * angle * steerPower * 250, ForceMode.Force);
+        boatRigid.AddForceAtPosition(transform.right * angle * steerPower * 0.05f, HeadPosition.position, ForceMode.Acceleration);
     }
 
     private void OnTriggerStay(Collider other)
@@ -115,6 +135,29 @@ public class BoatMoveController : MonoBehaviour
 
     }
 
+    void ZeroVelocity()
+    {
+        //print(velocity);
+        if(velocity == Vector3.zero || Vector3.Distance(velocity, Vector3.zero) < 0.001f)
+        {
+            velocity = Vector3.zero;
+            return;
+        }
+
+        velocity = Vector3.Lerp(velocity, Vector3.zero, Time.deltaTime * velocityRubberBend);
+    }
+
+    void ZeroRotate()
+    {
+        if(yAngle == 0|| Mathf.Abs(yAngle) < 0.001f)
+        {
+            yAngle = 0;
+            return;
+        }
+
+        yAngle = Mathf.Lerp(yAngle, 0, Time.deltaTime * yAngleRubberBend);
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (isWater)
@@ -135,5 +178,15 @@ public class BoatMoveController : MonoBehaviour
             boatRigid.drag = airDrag;
             boatRigid.angularDrag = angularDrag;
         }
+    }
+
+    void RotatePlayer()
+    {
+        Quaternion DestAngle;
+        DestAngle = transform.rotation;
+        DestAngle.x = VRPlayer.rotation.x;
+        DestAngle.z = VRPlayer.rotation.z;
+
+        VRPlayer.rotation = Quaternion.Slerp(VRPlayer.rotation, DestAngle, Time.deltaTime);
     }
 }

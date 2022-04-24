@@ -10,6 +10,7 @@ public class PaddleMoveController : MonoBehaviour
     private Vector3 enterVector;
     private Vector3 currentVector;
     public Vector3 diffVector;
+    public float scalarVector;
 
     public Transform handT;
     private Transform paddleT;
@@ -31,7 +32,7 @@ public class PaddleMoveController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentVector = handT.position - transform.position;
+        currentVector = transform.position;
 
         cur_HtoP_Vector = GetHandToPaddleDir();
     }
@@ -46,28 +47,34 @@ public class PaddleMoveController : MonoBehaviour
     {
         if (cols.transform.tag == "Water")
         {
-            if (Vector3.Distance(enterVector, currentVector) > 0.01f)
-            //if (Vector3.Distance(enterVector, currentVector) > 1f)
+            diffVector = currentVector - enterVector;
+            scalarVector = diffVector.magnitude;
+
+            diffVector.y = 0;
+
+            diffAngle = Vector3.SignedAngle(prev_HtoP_Vector, cur_HtoP_Vector, Vector3.up);
+
+            //unneccesary
+            diffQuaternion = Quaternion.FromToRotation(prev_HtoP_Vector, cur_HtoP_Vector);
+            testCube.transform.rotation = transform.rotation * diffQuaternion;
+
+
+            //add power and angle
+            if(scalarVector != 0)
             {
-                print("move boat");
-                diffVector = currentVector - enterVector;
-                diffVector.y = 0;
-
-                diffAngle = Vector3.Angle(prev_HtoP_Vector, cur_HtoP_Vector);
-                diffQuaternion = Quaternion.FromToRotation(prev_HtoP_Vector, cur_HtoP_Vector);
-
-                //print(diffAngle);
-
-                diffQuaternion.x = 0; diffQuaternion.z = 0; diffQuaternion.y *= 1;
-                testCube.transform.rotation = transform.rotation * diffQuaternion;
-
-                print(diffQuaternion.y);
-                BMCscript.MoveBoat(diffVector);
-                BMCscript.RotateBoat(diffQuaternion.y);
-                enterVector = currentVector;
-                prev_HtoP_Vector = cur_HtoP_Vector;
+                //print("addpower");
+                BMCscript.velocity -= diffVector * 0.02f;
             }
 
+            if (Mathf.Abs(diffAngle) != 0)
+            {
+                //print("addrotation");
+                BMCscript.yAngle -= diffAngle * 0.01f;
+            }
+
+            //reset Vectors
+            enterVector = currentVector;
+            prev_HtoP_Vector = cur_HtoP_Vector;
         }
     }
 
