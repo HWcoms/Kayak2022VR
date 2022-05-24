@@ -20,7 +20,7 @@ public class OceanManager : MonoBehaviour
     void SetVariables()
     {
         oceanMat = ocean.GetComponent<Renderer>().sharedMaterial;
-        wavesDisplacement = (Texture2D)oceanMat.GetTexture("_Displacement");
+        wavesDisplacement = (Texture2D)oceanMat.GetTexture("_WavesDisplacement");
     }
 
     public float WaterHeightAtPosition(Vector3 position)
@@ -38,9 +38,9 @@ public class OceanManager : MonoBehaviour
 
     void UpdateMaterial()
     {
-        oceanMat.SetFloat("_DisplaceStrength", waveHeight);
-        oceanMat.SetFloat("_NormalTiling", waveFrequency);
-        oceanMat.SetFloat("_PanSpeed", waveSpeed);
+        oceanMat.SetFloat("_WavesHeight", waveHeight);
+        oceanMat.SetFloat("_WavesFrequency", waveFrequency);
+        oceanMat.SetFloat("_WavesSpeed", waveSpeed);
     }
 
     // Update is called once per frame

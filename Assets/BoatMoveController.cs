@@ -48,13 +48,15 @@ public class BoatMoveController : MonoBehaviour
     public LayerMask layerMask;
 
     public Wave waveScript;
+    public OceanManager oceanManager;
     // Start is called before the first frame update
     void Start()
     {
         boatRigid = this.GetComponent<Rigidbody>();
-        //waterHeight = GameObject.FindWithTag("Water").transform.Find("WaterHeightPos").position.y;
 
-        foreach(Transform child in floaterParent.transform)
+        oceanManager = FindObjectOfType<OceanManager>();
+
+        foreach (Transform child in floaterParent.transform)
         {
             floaters.Add(child);
         }
@@ -217,6 +219,7 @@ public class BoatMoveController : MonoBehaviour
 
     public float GetWaveHeight(Vector3 pos)
     {
-        return waveScript.GetHeight(pos);
+        //return waveScript.GetHeight(pos);
+        return oceanManager.WaterHeightAtPosition(pos);
     }
 }

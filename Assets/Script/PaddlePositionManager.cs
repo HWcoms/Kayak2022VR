@@ -9,6 +9,8 @@ public class PaddlePositionManager : MonoBehaviour
 
     public Transform paddlePlaceHolder;
 
+    public Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,7 @@ public class PaddlePositionManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(!isGrapped)
         {
@@ -26,10 +28,17 @@ public class PaddlePositionManager : MonoBehaviour
 
                 this.transform.position = paddlePlaceHolder.position;
                 this.transform.rotation = paddlePlaceHolder.rotation;
+
             }
+
+            rb.isKinematic = true;
+
+            this.transform.position = paddlePlaceHolder.position;
+            this.transform.rotation = paddlePlaceHolder.rotation;
         }
         else
         {
+            rb.isKinematic = false;
         }
     }
 
