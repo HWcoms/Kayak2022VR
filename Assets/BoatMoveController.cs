@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BoatMoveController : MonoBehaviour
 {
+    public bool isStarted = true;
+
     public Transform VRPlayer;
     public Transform playerFloorPos;
     public Transform playerSeatPos;
@@ -22,6 +24,8 @@ public class BoatMoveController : MonoBehaviour
     public float airDrag = 0f;
     public float angularDrag = 0.05f;
 
+    public float depthBeforeSubmerged = 1f;
+    public float displacementAmount = 3f;
     public float floatingPower = 15f;
 
     public float waterHeight = 0f;
@@ -43,13 +47,18 @@ public class BoatMoveController : MonoBehaviour
     public float velocityRubberBend = 2.0f;
     public float yAngleRubberBend = 0.5f;
 
+    public LayerMask layerMask;
+
+    public Wave waveScript;
+    public OceanManager oceanManager;
     // Start is called before the first frame update
     void Start()
     {
         boatRigid = this.GetComponent<Rigidbody>();
-        waterHeight = GameObject.FindWithTag("Water").transform.Find("WaterHeightPos").position.y;
 
-        foreach(Transform child in floaterParent.transform)
+        oceanManager = FindObjectOfType<OceanManager>();
+
+        foreach (Transform child in floaterParent.transform)
         {
             floaters.Add(child);
         }
@@ -60,7 +69,11 @@ public class BoatMoveController : MonoBehaviour
     {
         if(isSeat)
         {
-            VRPlayer.transform.position = playerSeatPos.position;
+
+            if(isStarted)
+                //VRPlayer.transform.position = playerSeatPos.position;
+
+            FloatBoat();
 
             MoveBoat(velocity);
             RotateBoat(yAngle);
@@ -71,7 +84,7 @@ public class BoatMoveController : MonoBehaviour
         }
         else
         {
-            VRPlayer.transform.position = playerFloorPos.position;
+            //VRPlayer.transform.position = playerFloorPos.position;
         }
     }
 
@@ -107,32 +120,53 @@ public class BoatMoveController : MonoBehaviour
         boatRigid.AddForceAtPosition(transform.right * angle * steerPower * 0.05f, HeadPosition.position, ForceMode.Acceleration);
     }
 
-    private void OnTriggerStay(Collider other)
+    private void FloatBoat()
     {
+        if (transform.position.y > waterHeight)
+            isWater = false;
+        else
+            isWater = true;
+
         floatersUnderWater = 0;
+
+        float waveHeight;
+        //waveHeight = WaveManager.instance.GetWaveHeight(transform.position.x);
+
+        //print(waveHeight);
+
+        float difference;
+        /*
+        difference = transform.position.y - waveHeight;
+        if (transform.position.y < waveHeight)
+        {
+            //float displacementMultiplier = Mathf.Clamp01(-transform.position.y / depthBeforeSubmerged) * displacementAmount;
+            boatRigid.AddForce(Vector3.up * floatingPower * 10 * Mathf.Abs(difference), ForceMode.Acceleration);
+            SwitchState(true);
+            floatersUnderWater++;
+        }
+        */
         foreach(Transform floater in floaters)
         {
-            if (other.tag == "Water")
-            {
-                float difference = floater.position.y - waterHeight;
-                //print(difference);
-                isWater = true;
-                
+            //waveHeight = WaveManager.instance.GetWaveHeight(floater.position.x);
+            waveHeight = GetWaveHeight(floater.position);
+            difference = floater.position.y - waveHeight;
 
-                if(difference < 0)
-                {
-                    boatRigid.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(difference), floater.position, ForceMode.Force);
-                    SwitchState(true);
-                    floatersUnderWater++;
-                }
+            if(floater.position.y < waveHeight)
+            {
+                isWater = true;
+                SwitchState(true);
+                boatRigid.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(difference), floater.position, ForceMode.Acceleration);
+                floatersUnderWater++;
             }
         }
 
-        if (isWater && floatersUnderWater == 0)
+        if (/*isWater && */floatersUnderWater == 0)
         {
+            isWater = false;
             SwitchState(false);
         }
 
+        
     }
 
     void ZeroVelocity()
@@ -160,10 +194,7 @@ public class BoatMoveController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (isWater)
-        {
-            isWater = false;
-        }
+        
     }
 
     public void SwitchState(bool isWater)
@@ -188,5 +219,11 @@ public class BoatMoveController : MonoBehaviour
         DestAngle.z = VRPlayer.rotation.z;
 
         VRPlayer.rotation = Quaternion.Slerp(VRPlayer.rotation, DestAngle, Time.deltaTime);
+    }
+
+    public float GetWaveHeight(Vector3 pos)
+    {
+        //return waveScript.GetHeight(pos);
+        return oceanManager.WaterHeightAtPosition(pos);
     }
 }

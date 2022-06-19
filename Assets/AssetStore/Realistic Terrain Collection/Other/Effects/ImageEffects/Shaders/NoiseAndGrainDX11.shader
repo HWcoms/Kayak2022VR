@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Hidden/NoiseAndGrainDX11" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
@@ -74,7 +72,7 @@ Shader "Hidden/NoiseAndGrainDX11" {
 		{
 			v2f o;
 			
-			o.pos = UnityObjectToClipPos (v.vertex);	
+			o.pos = UnityObjectToClipPos(v.vertex);	
 			
 		#if UNITY_UV_STARTS_AT_TOP
 			o.uv_screen = v.vertex.xyxy;
@@ -95,7 +93,7 @@ Shader "Hidden/NoiseAndGrainDX11" {
 
 		float4 fragDX11 ( v2f i ) : SV_Target
 		{	
-			float4 color = saturate(tex2D (_MainTex, i.uv_screen.xy));
+			float4 color = saturate(tex2D (_MainTex, UnityStereoTransformScreenSpaceTex(i.uv_screen.xy)));
 			
 			// black & white intensities
 			float2 blackWhiteCurve = Luminance(color.rgb) - _MidGrey.x; // maybe tweak middle grey
@@ -111,7 +109,7 @@ Shader "Hidden/NoiseAndGrainDX11" {
 
 		float4 fragDX11Monochrome ( v2f i ) : SV_Target
 		{	
-			float4 color = saturate(tex2D (_MainTex, i.uv_screen.xy));
+			float4 color = saturate(tex2D (_MainTex, UnityStereoTransformScreenSpaceTex(i.uv_screen.xy)));
 			
 			// black & white intensities
 			float2 blackWhiteCurve = Luminance(color.rgb) - _MidGrey.x; // maybe tweak middle grey
@@ -127,7 +125,7 @@ Shader "Hidden/NoiseAndGrainDX11" {
 
 		float4 fragDX11Tmp ( v2f i ) : SV_Target
 		{	
-			float4 color = saturate(tex2D (_MainTex, i.uv_screen.xy));
+			float4 color = saturate(tex2D (_MainTex, UnityStereoTransformScreenSpaceTex(i.uv_screen.xy)));
 			
 			// black & white intensities
 			float2 blackWhiteCurve = Luminance(color.rgb) - _MidGrey.x; // maybe tweak middle grey
@@ -143,7 +141,7 @@ Shader "Hidden/NoiseAndGrainDX11" {
 
 		float4 fragDX11MonochromeTmp ( v2f i ) : SV_Target
 		{	
-			float4 color = saturate(tex2D (_MainTex, i.uv_screen.xy));
+			float4 color = saturate(tex2D (_MainTex, UnityStereoTransformScreenSpaceTex(i.uv_screen.xy)));
 			
 			// black & white intensities
 			float2 blackWhiteCurve = Luminance(color.rgb) - _MidGrey.x; // maybe tweak middle grey
@@ -159,7 +157,7 @@ Shader "Hidden/NoiseAndGrainDX11" {
 
 		float4 fragOverlayBlend	( v2f i ) : SV_Target
 		{	
-			float4 color = saturate(tex2D (_MainTex, i.uv_screen.xy));
+			float4 color = saturate(tex2D (_MainTex, UnityStereoTransformScreenSpaceTex(i.uv_screen.xy)));
 			float4 m = saturate(tex2D (_NoiseTex, i.uv_screen.xy));
 			
 			return float4(Overlay(m, color.rgb), color.a);

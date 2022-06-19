@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Water
   - Kayak
+  - laser
   layers:
   - Default
   - TransparentFX
