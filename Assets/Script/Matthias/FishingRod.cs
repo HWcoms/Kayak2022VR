@@ -194,11 +194,11 @@ public class FishingRod : MonoBehaviour
             Vector3 floaterDirection = new Vector3(AB.x, 0, AB.z);
 
             if (ropeSegments[i].A.isFloater && ropeSegments[i].A.isPinned) {
-                ropeSegments[i].A.currentPosition = A - (floaterDirection * percent) ;
+                ropeSegments[i].A.currentPosition = A - (floaterDirection * percent / 4) ;
             }
 
             if (ropeSegments[i].B.isFloater && ropeSegments[i].B.isPinned) {
-                ropeSegments[i].B.currentPosition = B + (floaterDirection * percent);
+                ropeSegments[i].B.currentPosition = B + (floaterDirection * percent / 4);
             }
 
             // SEGEMENT UPDATE
@@ -255,25 +255,20 @@ public class FishingRod : MonoBehaviour
             RopePoint currentPoint = ropePoints[i];
 
             if (currentPoint.isPinned && !currentPoint.isFloater) {
-
-                if (currentPoint.isFloater)
-                    Debug.Log("is floater");
                 continue;
             }
-            Debug.Log("currentPoint.isFloater" + currentPoint.isFloater);
 
             Vector3 velocity = currentPoint.currentPosition - currentPoint.oldPosition;
-
             currentPoint.oldPosition = currentPoint.currentPosition;
 
 
             if (currentPoint.isFloater && currentPoint.isPinned) {
-                Debug.Log("floater");
                 velocity.y = 0;
-                currentPoint.currentPosition += velocity;
-            } else {
-                currentPoint.currentPosition += velocity * friction;
+                currentPoint.currentPosition += velocity * floaterDragForce;
+                continue;
             }
+
+            currentPoint.currentPosition += velocity * friction;
 
             if (!currentPoint.isFloater)
                 currentPoint.currentPosition +=  Vector3.down * gravityForce * Time.deltaTime;
