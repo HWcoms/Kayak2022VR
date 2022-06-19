@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BoatMoveController : MonoBehaviour
 {
+    public bool isStarted = true;
+
     public Transform VRPlayer;
     public Transform playerFloorPos;
     public Transform playerSeatPos;
@@ -67,7 +69,9 @@ public class BoatMoveController : MonoBehaviour
     {
         if(isSeat)
         {
-            VRPlayer.transform.position = playerSeatPos.position;
+
+            if(isStarted)
+                //VRPlayer.transform.position = playerSeatPos.position;
 
             FloatBoat();
 
@@ -80,7 +84,7 @@ public class BoatMoveController : MonoBehaviour
         }
         else
         {
-            VRPlayer.transform.position = playerFloorPos.position;
+            //VRPlayer.transform.position = playerFloorPos.position;
         }
     }
 
