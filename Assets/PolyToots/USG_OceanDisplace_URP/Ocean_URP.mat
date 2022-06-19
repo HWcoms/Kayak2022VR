@@ -95,14 +95,14 @@ Material:
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthFade: 0.9
+    - _DepthFade: 0.05
     - _DisplaceStrength: 6
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Matallic: 0
+    - _Matallic: 0.125
     - _Metallic: 0
     - _NormalMapTiling: 0.02
     - _NormalStrength: 0.57
@@ -118,7 +118,7 @@ Material:
     - _Surface: 0
     - _WaveSpeed: 0.03
     - _WavesFrequency: 0.01
-    - _WavesHeight: 3
+    - _WavesHeight: 1.2
     - _WavesSpeed: 0.06
     - _WorkflowMode: 1
     - _ZWrite: 1
